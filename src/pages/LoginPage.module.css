@@ -1,0 +1,172 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  background: none;
+  border: none;
+  color: #7a4800;
+  font-size: 1.1rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.2rem 0.4rem;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+.closeBtn:hover { opacity: 1; }
+
+.gate {
+  background: linear-gradient(160deg, #f7edcc 0%, #efe1ac 50%, #e9d898 100%);
+  border: 3px solid #6b3d00;
+  border-radius: 4px;
+  padding: 3rem 2.8rem 2.5rem;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  position: relative;
+  box-shadow:
+    0 4px 0 #3d1f00,
+    0 10px 40px rgba(0,0,0,0.7),
+    inset 0 0 60px rgba(180,120,20,0.12);
+}
+
+.torchLeft,
+.torchRight {
+  position: absolute;
+  top: -1.2rem;
+  font-size: 1.8rem;
+  animation: flicker 1.4s ease-in-out infinite alternate;
+}
+.torchLeft  { left: 1.2rem; }
+.torchRight { right: 1.2rem; animation-delay: 0.7s; }
+
+@keyframes flicker {
+  0%   { opacity: 1;    transform: scale(1)    rotate(-3deg); }
+  100% { opacity: 0.75; transform: scale(0.93) rotate(3deg);  }
+}
+
+.crest {
+  font-size: 3rem;
+  color: #6b3d00;
+  line-height: 1;
+  margin-bottom: 0.8rem;
+}
+
+.title {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 2.4rem;
+  color: #2c1000;
+  line-height: 1.15;
+  margin-bottom: 0.8rem;
+}
+
+.subtitle {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.88rem;
+  color: #5a3000;
+  line-height: 1.7;
+  margin-bottom: 1.8rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.inputWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.keyIcon {
+  position: absolute;
+  left: 0.75rem;
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.4rem;
+  background: rgba(255,240,190,0.6);
+  border: 2px solid #7a4800;
+  border-radius: 3px;
+  font-family: 'IM Fell English', serif;
+  font-size: 1rem;
+  color: #2c1000;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input::placeholder { color: #a07840; font-style: italic; }
+.input:focus {
+  border-color: #4a1a00;
+  box-shadow: 0 0 0 3px rgba(120,60,0,0.18);
+}
+
+.error {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.83rem;
+  color: #8b0000;
+  padding: 0.4rem 0.6rem;
+  background: rgba(139,0,0,0.08);
+  border: 1px solid rgba(139,0,0,0.2);
+  border-radius: 3px;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  background: #5a2800;
+  color: #f5e9c8;
+  border: 2px solid #3d1500;
+  border-radius: 3px;
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  box-shadow: 0 3px 0 #2a0d00;
+}
+.btn:hover:not(:disabled) {
+  background: #7a3800;
+  transform: translateY(-1px);
+}
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #2a0d00;
+}
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* corner ornaments */
+.cornerTL, .cornerTR, .cornerBL, .cornerBR {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: #7a4800;
+  border-style: solid;
+  border-width: 0;
+}
+.cornerTL { top: 8px;    left: 8px;   border-top-width: 2px; border-left-width: 2px; }
+.cornerTR { top: 8px;    right: 8px;  border-top-width: 2px; border-right-width: 2px; }
+.cornerBL { bottom: 8px; left: 8px;   border-bottom-width: 2px; border-left-width: 2px; }
+.cornerBR { bottom: 8px; right: 8px;  border-bottom-width: 2px; border-right-width: 2px; }

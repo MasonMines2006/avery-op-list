@@ -1,0 +1,174 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 5, 0, 0.82);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+
+.modal {
+  background: linear-gradient(160deg, #f7edcc 0%, #efe1ac 60%, #e9d898 100%);
+  border: 2px solid #7a4800;
+  border-radius: 3px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow:
+    0 4px 0 #3d1f00,
+    0 12px 50px rgba(0,0,0,0.8),
+    inset 0 0 40px rgba(180,120,20,0.1);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.3rem 0.8rem;
+}
+
+.headerTitle {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 1.5rem;
+  color: #2c1000;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  color: #7a4800;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  line-height: 1;
+  border-radius: 2px;
+  transition: background 0.15s;
+}
+.closeBtn:hover { background: rgba(122,72,0,0.15); }
+
+.dividerH {
+  height: 1px;
+  background: linear-gradient(to right, transparent, #7a4800 20%, #7a4800 80%, transparent);
+  opacity: 0.4;
+  margin: 0 1rem;
+}
+
+.body {
+  padding: 1rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.label {
+  font-family: 'IM Fell English', serif;
+  font-size: 0.78rem;
+  font-style: italic;
+  color: #5a3000;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 0.4rem;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  background: rgba(255,240,190,0.6);
+  border: 1.5px solid #7a4800;
+  border-radius: 3px;
+  font-family: 'IM Fell English', serif;
+  font-size: 0.95rem;
+  color: #2c1000;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.input::placeholder,
+.textarea::placeholder { color: #a07840; font-style: italic; }
+.input:focus,
+.textarea:focus {
+  border-color: #4a1a00;
+  box-shadow: 0 0 0 2px rgba(120,60,0,0.15);
+}
+
+.sealGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.2rem;
+}
+
+.sealBtn {
+  width: 2.4rem;
+  height: 2.4rem;
+  font-size: 1.15rem;
+  background: rgba(255,240,190,0.5);
+  border: 1.5px solid #c8a87a;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, border-color 0.12s;
+}
+.sealBtn:hover { background: rgba(180,130,50,0.2); }
+.sealSelected {
+  background: #5a2800 !important;
+  border-color: #3d1500 !important;
+  font-size: 1.2rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  padding: 0.9rem 1.3rem 1.1rem;
+}
+
+.cancelBtn {
+  padding: 0.55rem 1.2rem;
+  background: transparent;
+  color: #5a3000;
+  border: 1.5px solid #7a4800;
+  border-radius: 3px;
+  font-family: 'IM Fell English', serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.cancelBtn:hover { background: rgba(122,72,0,0.1); }
+
+.saveBtn {
+  padding: 0.55rem 1.4rem;
+  background: #5a2800;
+  color: #f5e9c8;
+  border: 1.5px solid #3d1500;
+  border-radius: 3px;
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  box-shadow: 0 2px 0 #2a0d00;
+}
+.saveBtn:hover:not(:disabled) { background: #7a3800; transform: translateY(-1px); }
+.saveBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* corners */
+.cornerTL, .cornerTR, .cornerBL, .cornerBR {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: #7a4800;
+  border-style: solid;
+  border-width: 0;
+  pointer-events: none;
+}
+.cornerTL { top: 7px;    left: 7px;   border-top-width: 2px; border-left-width: 2px; }
+.cornerTR { top: 7px;    right: 7px;  border-top-width: 2px; border-right-width: 2px; }
+.cornerBL { bottom: 7px; left: 7px;   border-bottom-width: 2px; border-left-width: 2px; }
+.cornerBR { bottom: 7px; right: 7px;  border-bottom-width: 2px; border-right-width: 2px; }

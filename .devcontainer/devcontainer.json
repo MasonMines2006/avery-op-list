@@ -1,0 +1,26 @@
+{
+  "name": "Avery's Op List",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "forwardPorts": [5173, 3001],
+  "portsAttributes": {
+    "5173": { "label": "Vite (frontend)", "onAutoForward": "openBrowser" },
+    "3001": { "label": "Express (backend)" }
+  },
+  "postCreateCommand": "npm install",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "bradlc.vscode-tailwindcss"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      }
+    }
+  },
+  "remoteUser": "node"
+}

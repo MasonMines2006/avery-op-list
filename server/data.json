@@ -1,0 +1,60 @@
+{
+  "enemies": [
+    {
+      "id": "1",
+      "rank": 1,
+      "name": "Madison Clarke",
+      "offense": "Treachery Most Foul",
+      "description": "Did reveal unto the townsfolk the secret of Avery's audition before the results were proclaimed — then feigned innocence most convincingly. Her \"I thought you'd be happy\" hath sealed her fate at the top of this cursed register.",
+      "seal": "☠"
+    },
+    {
+      "id": "2",
+      "rank": 2,
+      "name": "Derek Paulson",
+      "offense": "Theft of Glory",
+      "description": "Did claim sole credit for a great undertaking which Avery alone didst carry from its inception to its triumphant conclusion. He stood before the assembled court and spoke as though the work were his own. He continueth to walk freely. Justice slumbereth.",
+      "seal": "⚔"
+    },
+    {
+      "id": "3",
+      "rank": 3,
+      "name": "Priya Nair",
+      "offense": "Spreading of Falsehoods",
+      "description": "Didst circulate rumours most wicked — that Avery's appointment to the lead role was gained through nepotism rather than merit. It is noted, for the record, that Priya herself did audition and was found wanting.",
+      "seal": "🐍"
+    },
+    {
+      "id": "4",
+      "rank": 4,
+      "name": "Tyler Voss",
+      "offense": "Persistent Interruption",
+      "description": "Hath interrupted Avery's counsel eleven times in the current season of school alone. Not malicious of intent, yet consistent of rudeness — a fool who knoweth not when to hold his tongue. Avery doth keep count.",
+      "seal": "🤡"
+    },
+    {
+      "id": "5",
+      "rank": 5,
+      "name": "Chloe Edmonds",
+      "offense": "Pettiness & Social Sorcery",
+      "description": "Did unfollow Avery across all known scrolls and message-boards within a single day of Avery's post receiving greater favour. She then hath the gall to wave in the corridor as though nothing hath transpired. The disrespect is documented.",
+      "seal": "👁"
+    },
+    {
+      "id": "6",
+      "rank": 6,
+      "name": "Finn Hargrove",
+      "offense": "Unlawful Possession",
+      "description": "Borrowed Avery's most prized garment \"for but one weekend\" in the month of October. It is now the month of March. The garment hath not been returned. No mention hath been made. Avery hath not forgotten. She never forgets.",
+      "seal": "🗝"
+    },
+    {
+      "id": "7",
+      "rank": 7,
+      "name": "Jasmine Wu",
+      "offense": "Breach of Confidence",
+      "description": "Did repeat, unto no fewer than four souls, words that were spoken to her in confidence — framing each retelling as concern for Avery's wellbeing. No further testimony shall be recorded here.",
+      "seal": "🕯"
+    }
+  ]
+}

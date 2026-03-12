@@ -1,0 +1,17 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #1a0800;
+  background-size: cover;
+  background-position: bottom center;
+  background-attachment: fixed;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  min-height: 100vh;
+  font-family: 'IM Fell English', serif;
+  color: #2c1a00;
+}
