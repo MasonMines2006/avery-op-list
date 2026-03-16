@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from "react";
 import LoginPage from "./pages/LoginPage.jsx";
 import EditModal from "./components/EditModal.jsx";
 import SinglePhotoBoard from "./components/SinglePhotoBoard.jsx";
+import PhotoBoard from "./components/PhotoBoard.jsx";
+import { apiUrl } from "./api.js";
 import styles from "./App.module.css";
 
 // ── Auth helpers ───────────────────────────────────────────
@@ -90,14 +92,6 @@ function NoticeCard({
           </div>
         )}
 
-        {enemy.rank === 1 && (
-          <div className={styles.wantedStamp}>
-            WANTED
-            <br />
-            DEAD OR ALIVE
-          </div>
-        )}
-
         <div className={styles.rankBadge}>
           <span className={styles.rankNum}>#{enemy.rank}</span>
           <span className={styles.rankLabel}>{rankLabel(enemy.rank)}</span>
@@ -133,6 +127,14 @@ export default function App() {
   const [boardOpen, setBoardOpen] = useState(false);
   const [scrollOpen, setScrollOpen] = useState(false);
   const [notifyStatus, setNotifyStatus] = useState(null); // null | 'sending' | 'ok' | string(error)
+  const [showSubscribe, setShowSubscribe] = useState(false);
+  const [subscribeEmail, setSubscribeEmail] = useState("");
+  const [subscribeStatus, setSubscribeStatus] = useState(null);
+  const [notifyConfig, setNotifyConfig] = useState({
+    email: false,
+    webhook: false,
+    loaded: false,
+  });
 
   // Random background, falls back to bg-medieval.png on load error
   const [bgImage] = useState(
@@ -156,7 +158,7 @@ export default function App() {
   const fetchEnemies = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/enemies");
+      const res = await fetch(apiUrl("/api/enemies"));
       const data = await res.json();
       setEnemies(data);
     } finally {
@@ -168,10 +170,38 @@ export default function App() {
     fetchEnemies();
   }, [fetchEnemies]);
 
+  useEffect(() => {
+    let active = true;
+
+    async function fetchNotifyStatus() {
+      try {
+        const res = await fetch(apiUrl("/api/notify/status"));
+        const data = await res.json();
+        if (active) {
+          setNotifyConfig({
+            email: !!data.email,
+            webhook: !!data.webhook,
+            loaded: true,
+          });
+        }
+      } catch {
+        if (active) {
+          setNotifyConfig({ email: false, webhook: false, loaded: true });
+        }
+      }
+    }
+
+    fetchNotifyStatus();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   async function persist(updated) {
     setSaving(true);
     try {
-      const res = await fetch("/api/enemies", {
+      const res = await fetch(apiUrl("/api/enemies"), {
         method: "PUT",
         headers: authHeaders(),
         body: JSON.stringify({ enemies: updated }),
@@ -201,7 +231,10 @@ export default function App() {
 
   async function handleLogout() {
     try {
-      await fetch("/api/logout", { method: "POST", headers: authHeaders() });
+      await fetch(apiUrl("/api/logout"), {
+        method: "POST",
+        headers: authHeaders(),
+      });
     } catch {}
     clearToken();
     setToken(null);
@@ -228,10 +261,35 @@ export default function App() {
     applyAndPersist(next);
   }
 
+  async function handleSubscribe(e) {
+    e.preventDefault();
+    setSubscribeStatus("sending");
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: subscribeEmail }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setSubscribeStatus(`⚠ ${data.error || "Failed to subscribe"}`);
+      } else if (data.already) {
+        setSubscribeStatus("✦ Thou art already subscribed!");
+        setTimeout(() => { setShowSubscribe(false); setSubscribeStatus(null); }, 2000);
+      } else {
+        setSubscribeStatus("✦ Thou art now subscribed to royal proclamations!");
+        setSubscribeEmail("");
+        setTimeout(() => { setShowSubscribe(false); setSubscribeStatus(null); }, 2500);
+      }
+    } catch {
+      setSubscribeStatus("⚠ Could not reach the server");
+    }
+  }
+
   async function handleTestNotify() {
     setNotifyStatus("sending");
     try {
-      const res = await fetch("/api/notify/test", {
+      const res = await fetch(apiUrl("/api/notify/test"), {
         method: "POST",
         headers: authHeaders(),
       });
@@ -263,6 +321,21 @@ export default function App() {
     setScrollOpen(false);
   }
 
+  const notificationsAvailable = notifyConfig.email || notifyConfig.webhook;
+  const notifyButtonLabel =
+    notifyStatus === "sending"
+      ? "📨 Dispatching..."
+      : notifyStatus
+        ? `🔔 ${notifyStatus}`
+        : notificationsAvailable
+          ? "🔔 Test Notification"
+          : "🔕 Alerts Unavailable";
+  const notifyButtonTitle = notificationsAvailable
+    ? "Send a test notification"
+    : notifyConfig.loaded
+      ? "Configure NOTIFY_EMAIL or NOTIFY_WEBHOOK in .env"
+      : "Checking notification channels";
+
   // ── Render ─────────────────────────────────────────────────
   return (
     <div className={styles.page}>
@@ -287,6 +360,15 @@ export default function App() {
         )}
       </div>
 
+      {/* ── Herald banner ──────────────────────────────────────── */}
+      <div className={styles.heraldBannerWrap}>
+        <div className={styles.heraldBannerLeft} />
+        <div className={styles.heraldBannerCenter}>
+          ⚔ Avery Thornton&apos;s Royal Op List ⚔
+        </div>
+        <div className={styles.heraldBannerRight} />
+      </div>
+
       {/* ── Scene: the pixel art landscape with the small board ── */}
       <div className={styles.scene}>
         {/* Atmospheric death decorations */}
@@ -297,6 +379,15 @@ export default function App() {
 
         {/* Single photo on the left */}
         <SinglePhotoBoard />
+
+        {/* Subscribe button */}
+        <button
+          className={styles.subscribeBtn}
+          onClick={() => setShowSubscribe(true)}
+          title="Subscribe to updates"
+        >
+          📜 Subscribe to the Register
+        </button>
 
         <div
           className={styles.boardIcon}
@@ -345,6 +436,11 @@ export default function App() {
             <div className={`${styles.nail} ${styles.nailBR}`} />
 
             <div className={styles.corkSurface}>
+              {/* Photo bulletin board sidebar */}
+              <div className={styles.photoSidebar}>
+                <PhotoBoard />
+              </div>
+
               <div
                 className={`${styles.scroll} ${scrollOpen ? styles.scrollOpen : ""}`}
               >
@@ -360,7 +456,11 @@ export default function App() {
                   >
                     <div className={styles.crossedSwords}>⚔ ✦ ⚔</div>
                     <p className={styles.herald}>By Royal Decree of</p>
-                    <h1 className={styles.title}>Avery Thornton</h1>
+                    <div className={styles.titleBannerWrap}>
+                      <div className={styles.titleBannerLeft} />
+                      <h1 className={styles.titleBanner}>Avery Thornton</h1>
+                      <div className={styles.titleBannerRight} />
+                    </div>
                     <p className={styles.subtitle}>
                       <em>
                         Official Register of Enemies, Miscreants &amp; Persons
@@ -412,14 +512,13 @@ export default function App() {
                           <button
                             className={styles.notifyBtn}
                             onClick={handleTestNotify}
-                            disabled={notifyStatus === "sending"}
-                            title="Send a test notification"
+                            disabled={
+                              notifyStatus === "sending" ||
+                              !notificationsAvailable
+                            }
+                            title={notifyButtonTitle}
                           >
-                            {notifyStatus === "sending"
-                              ? "📨 Dispatching..."
-                              : notifyStatus
-                                ? `🔔 ${notifyStatus}`
-                                : "🔔 Test Notification"}
+                            {notifyButtonLabel}
                           </button>
                         </div>
                       </div>
@@ -481,6 +580,53 @@ export default function App() {
 
       {showLogin && (
         <LoginPage onLogin={handleLogin} onClose={() => setShowLogin(false)} />
+      )}
+
+      {/* ── Subscribe modal ─────────────────────────────────── */}
+      {showSubscribe && (
+        <div
+          className={styles.boardModal}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowSubscribe(false);
+              setSubscribeStatus(null);
+            }
+          }}
+        >
+          <div className={styles.subscribeCard}>
+            <button
+              className={styles.boardCloseBtn}
+              onClick={() => { setShowSubscribe(false); setSubscribeStatus(null); }}
+              title="Close"
+            >
+              ✕
+            </button>
+            <h2 className={styles.subscribeTitle}>Subscribe to Royal Proclamations</h2>
+            <p className={styles.subscribeDesc}>
+              Receive word when the register is updated.
+            </p>
+            <form onSubmit={handleSubscribe} className={styles.subscribeForm}>
+              <input
+                type="email"
+                value={subscribeEmail}
+                onChange={(e) => setSubscribeEmail(e.target.value)}
+                placeholder="thy@email.domain"
+                className={styles.subscribeInput}
+                required
+              />
+              <button
+                type="submit"
+                className={styles.subscribeSubmit}
+                disabled={subscribeStatus === "sending"}
+              >
+                {subscribeStatus === "sending" ? "📜 Registering..." : "📜 Pledge Thy Allegiance"}
+              </button>
+            </form>
+            {subscribeStatus && subscribeStatus !== "sending" && (
+              <p className={styles.subscribeMsg}>{subscribeStatus}</p>
+            )}
+          </div>
+        </div>
       )}
     </div>
   );

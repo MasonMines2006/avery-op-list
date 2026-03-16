@@ -35,19 +35,29 @@ export default function SinglePhotoBoard() {
   const rotation = ROTATIONS[photoIndex % ROTATIONS.length];
 
   return (
-    <div className={styles.singlePhotoContainer}>
-      <div
-        className={styles.polaroid}
-        style={{ "--rot": `${rotation}deg`, "--pin-color": pinColor }}
-      >
-        <div className={styles.pin} />
-        <img
-          src={src}
-          alt="Avery Thornton"
-          className={styles.photo}
-          loading="lazy"
-        />
-        <div className={styles.caption}>{caption}</div>
+    <div className={styles.photoBoard}>
+      {/* Wooden frame with nails */}
+      <div className={`${styles.nail} ${styles.nailTL}`} />
+      <div className={`${styles.nail} ${styles.nailTR}`} />
+      <div className={`${styles.nail} ${styles.nailBL}`} />
+      <div className={`${styles.nail} ${styles.nailBR}`} />
+
+      {/* Cork surface */}
+      <div className={styles.corkSurface}>
+        {/* Single polaroid */}
+        <div
+          className={styles.polaroid}
+          style={{ "--rot": `${rotation}deg`, "--pin-color": pinColor }}
+        >
+          <div className={styles.pin} />
+          <img
+            src={src}
+            alt="Avery Thornton"
+            className={styles.photo}
+            loading="lazy"
+          />
+          <div className={styles.caption}>{caption}</div>
+        </div>
       </div>
     </div>
   );

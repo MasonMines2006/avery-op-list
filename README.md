@@ -58,3 +58,57 @@ See [AGENTS.md](AGENTS.md) for comprehensive project documentation including:
 
 - Default password: `avery123`
 - Change via `OP_PASSWORD` environment variable
+
+## Deployment
+
+This app can be deployed with Netlify for the frontend and Render for the API.
+
+### Render backend
+
+Create a new Render Web Service from this repository with these settings:
+
+- Language: `Node`
+- Root Directory: leave blank
+- Build Command: `npm install`
+- Start Command: `npm run server`
+
+Set these environment variables in Render:
+
+- `OP_PASSWORD=replace-me`
+- `FRONTEND_ORIGINS=https://your-site.netlify.app`
+
+Optional variables:
+
+- `DATA_DIR=/var/data` if you mount a persistent disk
+- `NOTIFY_EMAIL`
+- `SMTP_USER`
+- `SMTP_PASS`
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `NOTIFY_WEBHOOK`
+
+Important: the backend currently persists data in JSON files. If Render restarts the service on ephemeral storage, edits can be lost.
+
+- If your Render plan supports a persistent disk, mount one and point `DATA_DIR` at that mount path.
+- If not, treat this as temporary storage and move to a database before relying on it in production.
+
+### Netlify frontend
+
+Create a Netlify site from this repository with these settings:
+
+- Build command: `npm run build`
+- Publish directory: `dist`
+
+Set this environment variable in Netlify:
+
+- `VITE_API_BASE_URL=https://your-render-service.onrender.com`
+
+The SPA redirect rule for Netlify is included in `public/_redirects`.
+
+### Recommended deploy order
+
+1. Deploy Render first.
+2. Copy the Render URL into Netlify as `VITE_API_BASE_URL`.
+3. Deploy Netlify.
+4. Copy the Netlify URL into Render as `FRONTEND_ORIGINS`.
+5. Redeploy Render if needed.

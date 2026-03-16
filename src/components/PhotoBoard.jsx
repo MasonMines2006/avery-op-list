@@ -21,8 +21,8 @@ const CAPTIONS = [
   "She Never Forgets",
 ];
 
-// Pin colours — cycling
 const PIN_COLORS = ["#c00", "#1a6b1a", "#1a3a8b", "#c8a04a", "#8b0000"];
+const ROTATIONS = [-7, 4, -3, 6, -5, 3, -8];
 
 function shuffle(arr) {
   const a = [...arr];
@@ -33,34 +33,40 @@ function shuffle(arr) {
   return a;
 }
 
-const ROTATIONS = [-7, 4, -3, 6, -5, 3, -8];
-
 export default function PhotoBoard() {
   const [photos] = useState(() => shuffle(AVERY_PHOTOS));
 
   return (
-    <div className={styles.photoStrip}>
-      <div className={styles.stripLabel}>☠ The Lady of the Register ☠</div>
-      <div className={styles.photos}>
-        {photos.map((src, i) => (
-          <div
-            key={src}
-            className={styles.polaroid}
-            style={{ "--rot": `${ROTATIONS[i % ROTATIONS.length]}deg` }}
-          >
+    <div className={styles.photoBoard}>
+      {/* Corner nails */}
+      <div className={`${styles.nail} ${styles.nailTL}`} />
+      <div className={`${styles.nail} ${styles.nailTR}`} />
+      <div className={`${styles.nail} ${styles.nailBL}`} />
+      <div className={`${styles.nail} ${styles.nailBR}`} />
+
+      <div className={styles.corkSurface}>
+        <div className={styles.boardLabel}>☠ The Lady ☠</div>
+        <div className={styles.photoList}>
+          {photos.map((src, i) => (
             <div
-              className={styles.pin}
-              style={{ "--pin-color": PIN_COLORS[i % PIN_COLORS.length] }}
-            />
-            <img
-              src={src}
-              alt="Avery Thornton"
-              className={styles.photo}
-              loading="lazy"
-            />
-            <div className={styles.caption}>{CAPTIONS[i % CAPTIONS.length]}</div>
-          </div>
-        ))}
+              key={src}
+              className={styles.polaroid}
+              style={{
+                "--rot": `${ROTATIONS[i % ROTATIONS.length]}deg`,
+                "--pin-color": PIN_COLORS[i % PIN_COLORS.length],
+              }}
+            >
+              <div className={styles.pin} />
+              <img
+                src={src}
+                alt="Avery Thornton"
+                className={styles.photo}
+                loading="lazy"
+              />
+              <div className={styles.caption}>{CAPTIONS[i % CAPTIONS.length]}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

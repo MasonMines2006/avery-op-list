@@ -48,6 +48,206 @@
   color: #f5c0a0;
 }
 
+/* ── Herald banner (between topBar and scene) ───────────── */
+.heraldBannerWrap {
+  display: grid;
+  grid-template-columns: minmax(40px, 72px) auto minmax(40px, 72px);
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  max-width: 860px;
+  margin-bottom: 1.4rem;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.65));
+  animation: bannerWave 5.5s ease-in-out infinite;
+  transform-origin: center top;
+}
+
+.heraldBannerCenter {
+  margin: 0;
+  padding: 0.75rem 1.5rem 0.9rem;
+  font-family: "UnifrakturMaguntia", cursive;
+  font-size: clamp(1.3rem, 3.5vw, 2.2rem);
+  line-height: 1;
+  color: #f9edc2;
+  background: linear-gradient(180deg, #a22014 0%, #7f1209 52%, #620b06 100%);
+  border-top: 2px solid #d88b54;
+  border-bottom: 3px solid #4c0904;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 220, 170, 0.35),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+  letter-spacing: 0.04em;
+  text-shadow:
+    0 2px 0 rgba(70, 0, 0, 0.45),
+    0 0 12px rgba(255, 214, 140, 0.12);
+  text-align: center;
+  position: relative;
+}
+
+.heraldBannerCenter::before,
+.heraldBannerCenter::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(180deg, #781008, #4f0805);
+  z-index: -1;
+}
+.heraldBannerCenter::before {
+  left: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+.heraldBannerCenter::after {
+  right: 0;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.heraldBannerLeft {
+  height: 100%;
+  min-height: 58px;
+  background: linear-gradient(180deg, #b12a18 0%, #87140a 55%, #671008 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 220, 170, 0.25);
+  clip-path: polygon(100% 0, 18% 0, 0 50%, 18% 100%, 100% 100%, 78% 50%);
+}
+
+.heraldBannerRight {
+  height: 100%;
+  min-height: 58px;
+  background: linear-gradient(180deg, #b12a18 0%, #87140a 55%, #671008 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 220, 170, 0.25);
+  clip-path: polygon(0 0, 82% 0, 100% 50%, 82% 100%, 0 100%, 22% 50%);
+}
+
+@keyframes bannerWave {
+  0%, 100% {
+    transform: skewY(0deg) translateY(0px);
+  }
+  20% {
+    transform: skewY(0.55deg) translateY(-3px);
+  }
+  50% {
+    transform: skewY(-0.45deg) translateY(2px);
+  }
+  75% {
+    transform: skewY(0.35deg) translateY(-1px);
+  }
+}
+
+/* ── Subscribe button (in scene) ────────────────────────── */
+.subscribeBtn {
+  position: absolute;
+  bottom: calc(18vh + 10px);
+  right: 2rem;
+  padding: 0.45rem 1.1rem;
+  background: rgba(100, 30, 0, 0.45);
+  color: #c8a04a;
+  border: 1.5px solid #7a4800;
+  border-radius: 3px;
+  font-family: "IM Fell English", serif;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+}
+.subscribeBtn:hover {
+  background: rgba(139, 0, 0, 0.5);
+  color: #f5e9c8;
+  border-color: #8b0000;
+}
+
+/* ── Subscribe modal ────────────────────────────────────── */
+.subscribeCard {
+  position: relative;
+  background: linear-gradient(160deg, #f7edcc 0%, #efe1ac 50%, #e9d898 100%);
+  border: 2px solid #7a4800;
+  border-radius: 3px;
+  padding: 2rem 2.5rem 2.2rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow:
+    0 3px 0 #4a2a00,
+    0 8px 32px rgba(0, 0, 0, 0.7),
+    inset 0 0 30px rgba(160, 100, 10, 0.1);
+  animation: boardPopIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.subscribeTitle {
+  font-family: "UnifrakturMaguntia", cursive;
+  font-size: 1.5rem;
+  color: #3d1200;
+  text-align: center;
+  margin: 0 0 0.3rem;
+  line-height: 1.1;
+}
+
+.subscribeDesc {
+  font-family: "IM Fell English", serif;
+  font-style: italic;
+  font-size: 0.88rem;
+  color: #7a5020;
+  text-align: center;
+  margin: 0 0 1.2rem;
+}
+
+.subscribeForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.subscribeInput {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-family: "IM Fell English", serif;
+  font-size: 0.9rem;
+  background: rgba(245, 233, 200, 0.7);
+  border: 1.5px solid #8b5a20;
+  border-radius: 2px;
+  color: #3d1200;
+  box-sizing: border-box;
+}
+.subscribeInput:focus {
+  outline: none;
+  border-color: #a22014;
+  background: rgba(245, 233, 200, 0.9);
+}
+.subscribeInput::placeholder {
+  color: #a07040;
+  font-style: italic;
+}
+
+.subscribeSubmit {
+  padding: 0.5rem 1rem;
+  background: #5a2800;
+  color: #f5e9c8;
+  border: 1.5px solid #7a4800;
+  border-radius: 3px;
+  font-family: "IM Fell English", serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.subscribeSubmit:hover:not(:disabled) {
+  background: #7a3800;
+}
+.subscribeSubmit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.subscribeMsg {
+  font-family: "IM Fell English", serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  text-align: center;
+  color: #5a2800;
+  margin: 0.5rem 0 0;
+}
+
 /* ── Scene (full-height landscape area) ─────────────────── */
 .scene {
   flex: 1;
@@ -375,12 +575,12 @@
   align-items: flex-start;
 }
 
-/* Photo sidebar (left) */
+/* Photo sidebar (left of scroll in bulletin board modal) */
 .photoSidebar {
   flex-shrink: 0;
-  width: 240px;
-  display: flex;
-  flex-direction: column;
+  width: 190px;
+  align-self: stretch;
+  margin-right: 16px;
 }
 
 /* ── Scroll ─────────────────────────────────────────────── */
@@ -537,6 +737,74 @@
   line-height: 1;
   margin-bottom: 0.3rem;
   text-shadow: 2px 2px 0 rgba(180, 100, 0, 0.3);
+}
+
+.titleBannerWrap {
+  display: grid;
+  grid-template-columns: minmax(28px, 56px) auto minmax(28px, 56px);
+  align-items: center;
+  gap: 0;
+  max-width: 100%;
+  margin: 0.35rem auto 0.65rem;
+}
+
+.titleBanner {
+  margin: 0;
+  padding: 0.7rem 1.5rem 0.85rem;
+  font-family: "UnifrakturMaguntia", cursive;
+  font-size: clamp(1.9rem, 5vw, 3.2rem);
+  line-height: 1;
+  color: #f9edc2;
+  background: linear-gradient(180deg, #a22014 0%, #7f1209 52%, #620b06 100%);
+  border-top: 2px solid #d88b54;
+  border-bottom: 3px solid #4c0904;
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 220, 170, 0.35),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+  letter-spacing: 0.04em;
+  text-shadow:
+    0 2px 0 rgba(70, 0, 0, 0.45),
+    0 0 10px rgba(255, 214, 140, 0.12);
+  position: relative;
+}
+
+.titleBanner::before,
+.titleBanner::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(180deg, #781008, #4f0805);
+  z-index: -1;
+}
+
+.titleBanner::before {
+  left: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+
+.titleBanner::after {
+  right: 0;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.titleBannerLeft,
+.titleBannerRight {
+  height: 100%;
+  min-height: 56px;
+  background: linear-gradient(180deg, #b12a18 0%, #87140a 55%, #671008 100%);
+  position: relative;
+  box-shadow: inset 0 1px 0 rgba(255, 220, 170, 0.25);
+}
+
+.titleBannerLeft {
+  clip-path: polygon(100% 0, 18% 0, 0 50%, 18% 100%, 100% 100%, 78% 50%);
+}
+
+.titleBannerRight {
+  clip-path: polygon(0 0, 82% 0, 100% 50%, 82% 100%, 0 100%, 22% 50%);
 }
 
 .subtitle {
@@ -927,30 +1195,6 @@
   }
 }
 
-/* ── WANTED DEAD OR ALIVE stamp on rank 1 ───────────────── */
-.wantedStamp {
-  position: absolute;
-  top: 1.2rem;
-  right: -4px;
-  transform: rotate(8deg);
-  font-family: "IM Fell English", serif;
-  font-size: 0.62rem;
-  font-weight: bold;
-  font-style: italic;
-  color: #8b0000;
-  border: 2px solid #8b0000;
-  padding: 3px 7px;
-  line-height: 1.4;
-  text-align: center;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  opacity: 0.72;
-  pointer-events: none;
-  text-shadow: 0 0 4px rgba(139, 0, 0, 0.4);
-  box-shadow: inset 0 0 6px rgba(139, 0, 0, 0.15);
-  z-index: 3;
-}
-
 /* ── Blood drip along top of rank 1 card ───────────────── */
 .rank1 .cardInner::before {
   content: "";
@@ -996,4 +1240,114 @@
   height: 30%;
   background: linear-gradient(to top, rgba(8, 3, 0, 0.55), transparent);
   pointer-events: none;
+}
+
+@media (max-width: 820px) {
+  .page {
+    padding-inline: 0.75rem;
+  }
+
+  .scene {
+    min-height: auto;
+    padding-top: 1rem;
+    padding-bottom: 10vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.2rem;
+  }
+
+  .topBar {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .boardIcon {
+    margin-top: 0.5rem;
+  }
+
+  .photoSidebar {
+    display: none;
+  }
+
+  .subscribeBtn {
+    position: relative;
+    bottom: auto;
+    right: auto;
+  }
+
+  .heraldBannerWrap {
+    grid-template-columns: 28px auto 28px;
+  }
+
+  .heraldBannerLeft,
+  .heraldBannerRight {
+    min-height: 48px;
+  }
+
+  .bulletinBoard {
+    padding: 16px;
+  }
+
+  .corkSurface {
+    padding: 18px 14px;
+  }
+
+  .scrollHeader {
+    padding-inline: 1rem;
+  }
+
+  .scrollOpen .scrollBody {
+    max-height: calc(100vh - 420px);
+    padding-inline: 1rem;
+  }
+
+  .titleBannerWrap {
+    grid-template-columns: 36px auto 36px;
+  }
+
+  .titleBanner {
+    padding-inline: 0.9rem;
+  }
+
+  .titleBannerLeft,
+  .titleBannerRight {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 540px) {
+  .boardModal {
+    padding: 0.5rem;
+  }
+
+  .bulletinBoard {
+    padding: 12px;
+  }
+
+  .corkSurface {
+    padding: 12px 10px;
+  }
+
+  .scrollHeader {
+    padding: 0.85rem 0.75rem 0.55rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .boardHeader {
+    font-size: 1.2rem;
+    letter-spacing: 0.16em;
+  }
+
+  .editBanner {
+    padding: 0.7rem 0.8rem;
+  }
+
+  .scrollOpen .scrollBody {
+    max-height: calc(100vh - 360px);
+    padding: 0 0.75rem 1rem;
+  }
 }

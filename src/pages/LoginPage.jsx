@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiUrl } from "../api.js";
 import styles from "./LoginPage.module.css";
 
 export default function LoginPage({ onLogin, onClose }) {
@@ -11,7 +12,7 @@ export default function LoginPage({ onLogin, onClose }) {
     setError("");
     setLoading(true);
     try {
-      const res = await fetch("/api/login", {
+      const res = await fetch(apiUrl("/api/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password }),
