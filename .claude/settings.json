@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const req = require\\(''http''\\).get\\(''http://localhost:3001/api/enemies'', res => console.log\\(''backend:'', res.statusCode\\)\\); req.on\\(''error'', e => console.log\\(''backend down:'', e.message\\)\\);\")",
+      "Bash(node -e \"const req = require\\(''http''\\).get\\(''http://localhost:5173'', res => console.log\\(''vite:'', res.statusCode\\)\\); req.on\\(''error'', e => console.log\\(''vite down:'', e.message\\)\\);\")",
+      "Bash(node -e \":*)",
+      "Bash(npm run:*)",
+      "Bash(node server/index.js)",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(node -e \"const pkg = require\\(''/workspaces/avery-op-list/node_modules/express/package.json''\\); console.log\\(''express version:'', pkg.version\\)\")"
+    ]
+  }
+}

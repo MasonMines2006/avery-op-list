@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import LoginPage from "./pages/LoginPage.jsx";
 import EditModal from "./components/EditModal.jsx";
+import SinglePhotoBoard from "./components/SinglePhotoBoard.jsx";
 import styles from "./App.module.css";
 
 // ── Auth helpers ───────────────────────────────────────────
@@ -88,6 +89,15 @@ function NoticeCard({
             </button>
           </div>
         )}
+
+        {enemy.rank === 1 && (
+          <div className={styles.wantedStamp}>
+            WANTED
+            <br />
+            DEAD OR ALIVE
+          </div>
+        )}
+
         <div className={styles.rankBadge}>
           <span className={styles.rankNum}>#{enemy.rank}</span>
           <span className={styles.rankLabel}>{rankLabel(enemy.rank)}</span>
@@ -122,6 +132,7 @@ export default function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [boardOpen, setBoardOpen] = useState(false);
   const [scrollOpen, setScrollOpen] = useState(false);
+  const [notifyStatus, setNotifyStatus] = useState(null); // null | 'sending' | 'ok' | string(error)
 
   // Random background, falls back to bg-medieval.png on load error
   const [bgImage] = useState(
@@ -217,6 +228,32 @@ export default function App() {
     applyAndPersist(next);
   }
 
+  async function handleTestNotify() {
+    setNotifyStatus("sending");
+    try {
+      const res = await fetch("/api/notify/test", {
+        method: "POST",
+        headers: authHeaders(),
+      });
+      if (res.status === 401) {
+        handleLogout();
+        return;
+      }
+      const data = await res.json();
+      if (!res.ok) {
+        setNotifyStatus(`error: ${data.error}`);
+      } else {
+        const parts = Object.entries(data.results || {})
+          .map(([k, v]) => `${k}: ${v}`)
+          .join(", ");
+        setNotifyStatus(parts ? `sent — ${parts}` : "sent");
+      }
+    } catch (e) {
+      setNotifyStatus(`error: ${e.message}`);
+    }
+    setTimeout(() => setNotifyStatus(null), 4000);
+  }
+
   function openBoard() {
     setBoardOpen(true);
   }
@@ -252,6 +289,15 @@ export default function App() {
 
       {/* ── Scene: the pixel art landscape with the small board ── */}
       <div className={styles.scene}>
+        {/* Atmospheric death decorations */}
+        <span className={styles.sceneSkull}>💀</span>
+        <span className={styles.sceneSkull}>☠</span>
+        <span className={styles.sceneSkull}>💀</span>
+        <span className={styles.sceneSkull}>⚔</span>
+
+        {/* Single photo on the left */}
+        <SinglePhotoBoard />
+
         <div
           className={styles.boardIcon}
           onClick={openBoard}
@@ -335,7 +381,7 @@ export default function App() {
                   {/* Expandable enemy list */}
                   <div className={styles.scrollBody}>
                     <div className={styles.boardHeader}>
-                      <span>— NOTICE BOARD —</span>
+                      <span>— ☠ NOTICE BOARD ☠ —</span>
                     </div>
 
                     {isEditing && (
@@ -346,22 +392,36 @@ export default function App() {
                             : saveMsg ||
                               "✎ Edit mode — move, amend, or strike entries from the register"}
                         </span>
-                        <button
-                          className={styles.addBtn}
-                          onClick={() =>
-                            setModal({
-                              enemy: {
-                                id: "",
-                                name: "",
-                                offense: "",
-                                description: "",
-                                seal: "⚔",
-                              },
-                            })
-                          }
-                        >
-                          + Add to the Register
-                        </button>
+                        <div className={styles.editBannerActions}>
+                          <button
+                            className={styles.addBtn}
+                            onClick={() =>
+                              setModal({
+                                enemy: {
+                                  id: "",
+                                  name: "",
+                                  offense: "",
+                                  description: "",
+                                  seal: "⚔",
+                                },
+                              })
+                            }
+                          >
+                            + Add to the Register
+                          </button>
+                          <button
+                            className={styles.notifyBtn}
+                            onClick={handleTestNotify}
+                            disabled={notifyStatus === "sending"}
+                            title="Send a test notification"
+                          >
+                            {notifyStatus === "sending"
+                              ? "📨 Dispatching..."
+                              : notifyStatus
+                                ? `🔔 ${notifyStatus}`
+                                : "🔔 Test Notification"}
+                          </button>
+                        </div>
                       </div>
                     )}
 
@@ -389,12 +449,16 @@ export default function App() {
 
                     <footer className={styles.footer}>
                       <p>
-                        ✦ &nbsp; Cross Lady Avery and find thyself upon this
-                        list &nbsp; ✦
+                        ☠ &nbsp; Cross Lady Avery and find thyself upon this
+                        list &nbsp; ☠
                       </p>
                       <p className={styles.footerSub}>
                         Updated as offences are committed &mdash; Anno Domini,
                         Ongoing
+                      </p>
+                      <p className={styles.footerSub}>
+                        None who have wronged her shall escape the register.
+                        None.
                       </p>
                     </footer>
                   </div>

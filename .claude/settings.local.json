@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Bash(npx create-vite@latest . --template react)",
+      "Bash(npm install:*)",
+      "Bash(curl -s http://localhost:5173)",
+      "WebSearch",
+      "WebFetch(domain:opengameart.org)",
+      "WebFetch(domain:craftpix.net)",
+      "WebFetch(domain:stealthix.itch.io)",
+      "WebFetch(domain:kenney.nl)"
+    ]
+  }
+}

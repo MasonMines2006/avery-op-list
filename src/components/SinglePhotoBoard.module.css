@@ -1,0 +1,75 @@
+/* Single polaroid on the main scene */
+.singlePhotoContainer {
+  position: absolute;
+  left: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.polaroid {
+  position: relative;
+  background: #fff;
+  padding: 5px 5px 18px 5px;
+  box-shadow:
+    2px 3px 10px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transform: rotate(var(--rot, 0deg));
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  flex-shrink: 0;
+  cursor: default;
+  width: 100px;
+}
+
+.polaroid:hover {
+  transform: rotate(0deg) scale(1.08) translateY(-4px);
+  box-shadow:
+    4px 6px 20px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  z-index: 10;
+}
+
+/* Push-pin */
+.pin {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 38% 35%,
+    color-mix(in srgb, var(--pin-color) 40%, #fff 60%),
+    var(--pin-color) 55%,
+    color-mix(in srgb, var(--pin-color) 80%, #000 20%)
+  );
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  z-index: 1;
+}
+
+/* Photo image */
+.photo {
+  display: block;
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  image-rendering: auto;
+}
+
+/* Caption */
+.caption {
+  text-align: center;
+  font-family: "IM Fell English", serif;
+  font-size: 0.5rem;
+  font-style: italic;
+  color: #3d1a00;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  padding-top: 2px;
+}

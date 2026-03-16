@@ -30,6 +30,7 @@ preview   Preview the production build
 ## Documentation
 
 See [AGENTS.md](AGENTS.md) for comprehensive project documentation including:
+
 - Tech stack overview
 - Project structure
 - API endpoints
@@ -38,7 +39,7 @@ See [AGENTS.md](AGENTS.md) for comprehensive project documentation including:
 - Environment variables
 - Coding conventions
 
-## Features
+## Featuress
 
 - **Public viewing** — Anyone can view the ranked enemies list
 - **Password-protected editing** — UUID session tokens (8-hour TTL) gate all mutations
